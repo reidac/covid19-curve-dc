@@ -15,25 +15,18 @@ def model(p, x):
 
 
 fig = plt.figure(figsize=(6, 4))
-plt.suptitle("COVID-19 Cases: Montgomery County, MD", fontweight="bold")
-plt.title("github.com/tkphd/covid19-curve-your-county", style="oblique")
+plt.suptitle("COVID-19 Cases: District of Columbia", fontweight="bold")
+plt.title("github.com/reidac/covid19-curve-your-county", style="oblique")
 plt.xlabel("Day of Record")
 plt.ylabel("# Diagnosed Cases")
 
 # Data
 
-df = pd.read_csv("us_md_montgomery.csv")
+import get_dc_data
+casedata = get_dc_data.retrieve()
 
-y = np.array(df["diagnosed"])
-start = strptime(df["date"].iloc[0], "%Y-%m-%d")
-start = date(start.tm_year, start.tm_mon, start.tm_mday).toordinal()
-today = strptime(df["date"].iloc[-1], "%Y-%m-%d")
-today = date(today.tm_year, today.tm_mon, today.tm_mday).toordinal()
-
-x = np.zeros_like(y)
-for i in range(len(x)):
-    day = strptime(df["date"].iloc[i], "%Y-%m-%d")
-    x[i] = date(day.tm_year, day.tm_mon, day.tm_mday).toordinal() - start
+x = casedata.x
+y = casedata.y
 
 plt.scatter(x, y, marker=".", s=10, color="k", zorder=10)
 
@@ -46,7 +39,9 @@ a, b = f.params
 
 # Confidence Band: dfdp represents the partial derivatives of the model with respect to each parameter p (i.e., a and b)
 
-xhat = np.linspace(0, x[-1] + 7, 100)
+# Use casedata, not the trailing item in the list, which for us
+# is not the largest abscissa!
+xhat = np.linspace(0, casedata.today-casedata.start+7, 100)
 dfdp = [(1 + b) ** xhat, (a * xhat * (1 + b) ** xhat) / (1 + b)]
 level = 0.95
 yhat, upper, lower = f.confidence_band(xhat, dfdp, level, model)
@@ -67,10 +62,13 @@ plt.ylim([0, upper[-1]])
 
 # Predictions
 
-tomorrow = date.fromordinal(today + 1)
-nextWeek = date.fromordinal(today + 7)
+tomorrow = date.fromordinal(casedata.today + 1)
+nextWeek = date.fromordinal(casedata.today + 7)
 
-xhat = np.array([tomorrow.toordinal() - start, nextWeek.toordinal() - start])
+print(tomorrow.toordinal()-casedata.start)
+print(nextWeek.toordinal()-casedata.start)
+
+xhat = np.array([tomorrow.toordinal() - casedata.start, nextWeek.toordinal() - casedata.start])
 dfdp = [(1 + b) ** xhat, (a * xhat * (1 + b) ** xhat) / (1 + b)]
 yhat, upper, lower = f.confidence_band(xhat, dfdp, level, model)
 dx = 0.25
@@ -130,4 +128,4 @@ plt.arrow(
 
 # Save figure
 
-plt.savefig("us_md_montgomery.png", dpi=400, bbox_inches="tight")
+plt.savefig("us_dc.png", dpi=300, bbox_inches="tight")
