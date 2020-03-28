@@ -65,8 +65,8 @@ plt.ylim([0, upper[-1]])
 tomorrow = date.fromordinal(casedata.today + 1)
 nextWeek = date.fromordinal(casedata.today + 7)
 
-print(tomorrow.toordinal()-casedata.start)
-print(nextWeek.toordinal()-casedata.start)
+# print(tomorrow.toordinal()-casedata.start)
+# print(nextWeek.toordinal()-casedata.start)
 
 xhat = np.array([tomorrow.toordinal() - casedata.start, nextWeek.toordinal() - casedata.start])
 dfdp = [(1 + b) ** xhat, (a * xhat * (1 + b) ** xhat) / (1 + b)]
