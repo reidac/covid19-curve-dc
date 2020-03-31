@@ -25,7 +25,7 @@ deviations from the least-squares fit.
 2. Install dependencies
 
    ```bash
-   $ conda install matplotlib numpy pandas pip scipy
+   $ conda install matplotlib numpy pandas scipy
    ```
 
 3. Run the `exponential.py` script.
