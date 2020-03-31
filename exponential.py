@@ -48,12 +48,12 @@ yhat, upper, lower = f.confidence_band(xhat, dfdp, level, model)
 
 ix = np.argsort(xhat)
 plt.plot(xhat[ix], yhat[ix], c="red", lw=1, zorder=5)
-plt.fill_between(
-    xhat[ix], upper[ix], yhat[ix], edgecolor=None, facecolor="silver", zorder=1
-)
-plt.fill_between(
-    xhat[ix], lower[ix], yhat[ix], edgecolor=None, facecolor="silver", zorder=1
-)
+# plt.fill_between(
+#     xhat[ix], upper[ix], yhat[ix], edgecolor=None, facecolor="silver", zorder=1
+# )
+# plt.fill_between(
+#     xhat[ix], lower[ix], yhat[ix], edgecolor=None, facecolor="silver", zorder=1
+# )
 
 # Plot Boundaries
 
@@ -76,8 +76,8 @@ dx = 0.25
 plt.text(
     dx,
     yhat[0],
-    "{0}/{1}: ({2:.0f} < {3:.0f} < {4:.0f})".format(
-        tomorrow.month, tomorrow.day, lower[0], yhat[0], upper[0]
+    "{0}/{1}: {2:.0f}".format(
+        tomorrow.month, tomorrow.day, yhat[0]
     ),
     va="center",
     zorder=5,
@@ -86,8 +86,8 @@ plt.text(
 plt.text(
     dx,
     yhat[1],
-    "{0}/{1}: ({2:.0f} < {3:.0f} < {4:.0f})".format(
-        nextWeek.month, nextWeek.day, lower[1], yhat[1], upper[1]
+    "{0}/{1}: {2:.0f}".format(
+        nextWeek.month, nextWeek.day, yhat[1]
     ),
     va="center",
     zorder=5,
