@@ -38,11 +38,3 @@ I was not specifying 3.0. Your mileage may differ.
 4. Share your findings to help others assess the spread of SARS-CoV-2, and to gauge the
    effectiveness of our collective response.
 
-Disclaimer: The grey bands in the generated figure should not be understood
-as 95% confidence intervals even given the crudeness of the model,
-
-Some of my tweets on this topic make this mistake, but in fact, the bands are
-the result of asking the model fit for the 95% confidence bands.  This is
-actually meaningless -- the model fit is generated from input data which
-does not have good uncertainties, the code simply uses the default
-value of 1.0 for the one-sigma error on each input point.
