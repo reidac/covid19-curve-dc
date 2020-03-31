@@ -16,7 +16,7 @@ def model(p, x):
 
 fig = plt.figure(figsize=(6, 4))
 plt.suptitle("COVID-19 Cases: District of Columbia", fontweight="bold")
-plt.title("github.com/reidac/covid19-curve-your-county", style="oblique")
+plt.title("github.com/reidac/covid19-curve-dc", style="oblique")
 plt.xlabel("Day of Record")
 plt.ylabel("# Diagnosed Cases")
 
