@@ -11,6 +11,14 @@ Then ported again from @tkphd's chart for
 
 Data source: https://covidtracking.com/api/states/daily?state=DC
 
+The fitting process used in this analysis gives a covariance matrix for
+the model parameters, and from this matrix, it's possible to derive 
+one-sigma bounds on the parameters, assuming that the uncertainty on
+all of the input data points are the same. 
+
+The gray bands are the plus-one-sigma (upper) and minus-one-sigma (lower)
+deviations from the least-squares fit.
+
 ## Reproduce This!
 
 1. Install [Python](https://www.anaconda.com/distribution/)
@@ -34,7 +42,3 @@ Data source: https://covidtracking.com/api/states/daily?state=DC
 
 4. Share your findings to help others assess the spread of SARS-CoV-2, and to gauge the
    effectiveness of our collective response.
-
-*Disclaimer:*  The gray band is an estimate of the uncertainty, but not 
-a hugely good one.  It's based on a one-sigma standard error of 1.0 for
-the data points, which is arbitrary, the true error is unknown. 

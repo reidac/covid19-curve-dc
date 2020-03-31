@@ -6,7 +6,7 @@ import numpy as np
 import pandas as pd
 from time import strptime
 from datetime import date
-from scipy.optimize import curve_fit, least_squares
+from scipy.optimize import curve_fit
 from scipy.stats import describe, t
 
 def model(x,a,b):
@@ -34,8 +34,7 @@ plt.scatter(x, y, marker=".", s=10, color="k", zorder=10)
 
 # Levenburg-Marquardt Least-Squares Fit
 
-s = np.ones_like(x)
-popt,pcov = curve_fit(model, x, y, p0=[1,1], sigma=s, method="lm", jac=jacobian)
+popt,pcov = curve_fit(model, x, y, p0=[1,1], sigma=None, method="lm", jac=jacobian)
 
 perr = np.sqrt(np.diag(pcov))
 coef = describe(pcov)
