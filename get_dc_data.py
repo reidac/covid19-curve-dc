@@ -18,11 +18,14 @@ class CaseData:
         self.y = np.zeros(size)
         self.start = 0 # Ordinal of the smallest date seen.
         self.today = 0 # Ordinal of the largest date seen.
-    def normalize(self): # Convert x to day-of-record.
+    def normalize(self): # Convert x to day-of-record and sort by date.
         self.start = int(min(self.x))
         self.today = int(max(self.x))
-        self.x = np.subtract(self.x,self.start)
-    
+        nx = np.subtract(self.x,self.start)
+        idarr = np.argsort(nx)
+        self.x = np.take_along_axis(nx,idarr,axis=0)
+        self.y = np.take_along_axis(self.y,idarr,axis=0)
+        
 
 def retrieve():
     jsn = (requests.get(url=URL)).json()

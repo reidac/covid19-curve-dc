@@ -27,6 +27,8 @@ plt.ylabel("# Diagnosed Cases")
 import get_dc_data
 casedata = get_dc_data.retrieve()
 
+# The new improved CaseData object promises us data
+# sorted in order of increasing x.
 x = casedata.x
 y = casedata.y
 
@@ -144,3 +146,20 @@ plt.arrow(
 # Save figure
 
 plt.savefig("us_dc.png", dpi=300, bbox_inches="tight")
+
+
+# Differential figure.
+
+f2 = plt.figure(figsize=(6,4))
+plt.suptitle("COVID-19 Case Increments, District of Columbia ",
+             fontweight="bold")
+plt.title("github.com/reidac/covid19-curve-dc", style="oblique")
+plt.xlabel("Case count")
+plt.ylabel("Case increment")
+
+dx = casedata.y[:-1]
+dy = np.array([casedata.y[i+1]-casedata.y[i] for i in range(len(dx))])
+
+plt.scatter(dx,dy,marker="o",s=10,color="k",zorder=10)
+
+plt.savefig("us_dc_diff.png",dpi=300,bbox_inches="tight")
