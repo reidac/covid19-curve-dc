@@ -8,6 +8,7 @@ from time import strptime
 from datetime import date
 from scipy.optimize import curve_fit
 from scipy.stats import describe, t
+import os
 
 def model(x,a,b):
     return a*(1+b)**x
@@ -145,7 +146,12 @@ plt.arrow(
 
 # Save figure
 
-plt.savefig("us_dc.png", dpi=300, bbox_inches="tight")
+if "FIG_PATH" in os.environ:
+    fig_path = os.environ['FIG_PATH']
+else:
+    fig_path = "."
+
+plt.savefig("{0}/us_dc.png".format(fig_path), dpi=300, bbox_inches="tight")
 
 
 # Differential figure.
@@ -162,4 +168,4 @@ dy = np.array([casedata.y[i+1]-casedata.y[i] for i in range(len(dx))])
 
 plt.scatter(dx,dy,marker="o",s=10,color="k",zorder=10)
 
-plt.savefig("us_dc_diff.png",dpi=300,bbox_inches="tight")
+plt.savefig("{0}/us_dc_diff.png".format(fig_path),dpi=300,bbox_inches="tight")
