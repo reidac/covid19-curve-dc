@@ -7,7 +7,7 @@ Then ported again from @tkphd's chart for
 
 ## District of Columbia, USA
 
-![DC](us_dc.png)
+![DC](us_dc_exp.png)
 
 Data source: https://covidtracking.com/api/states/daily?state=DC
 
