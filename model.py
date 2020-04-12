@@ -20,8 +20,6 @@ class Model:
         self.params = [1]*d
         self.deltas = [0]*d
         self.sglist = []
-        for sg in Model._allsigns(len(self.deltas)):
-            self.sglist.append(sg)
 
     def fit(self,xdata,ydata):
         popt,pcov = curve_fit(self.model, xdata, ydata,
@@ -103,8 +101,10 @@ class Logistic(Model):
 
 # When run stand-alone, do some testing.  The exceptions
 # should name the child class, the evaluations should work
-# without parameter arguments, and the last call should
-# return a vector of evaluations with the fitted parameters.
+# without parameter arguments, and _l and _h vectors should bracket
+# the evaluation vector.  Evaluate should work with both scalar
+# and np.ndarray-type arguments.
+
 if __name__=="__main__":
     xvs = np.array([0.0, 1.0, 2.0, 3.0,4.0])
     yvs = np.array([1.0, 1.1, 1.2, 1.3,1.4])
