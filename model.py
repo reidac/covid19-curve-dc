@@ -15,16 +15,6 @@ class ModelError(Exception):
 
 
 class Model:
-    def _allsigns(n):
-        signset = [-1,1]
-        if (n==1):
-            for s in signset:
-                yield [s]
-        else:
-            for s in signset:
-                for tail in Model._allsigns(n-1):
-                    yield [s]+tail
-                    
     def __init__(self,d):
         self.fitted = False
         self.params = [1]*d
