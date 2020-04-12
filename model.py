@@ -14,6 +14,14 @@ class ModelError(Exception):
         return "ModelError: Attempt to evaluate {0} before fitting.".format(self.clstr)
 
 
+def errchecker(func):
+    def _errchecker(self,*args,**kwargs):
+        if (self.fitted):
+            return func(self,*args,**kwargs)
+        else:
+            raise ModelError(str(self.__class__))
+    return _errchecker
+            
 class Model:
     def __init__(self,d):
         self.fitted = False
@@ -28,11 +36,10 @@ class Model:
         self.params = popt
         self.deltas = np.sqrt(np.diag(pcov))
         self.fitted = True
+
+    @errchecker
     def evaluate(self,t):
-        if (self.fitted):
-            return self.model(t,*self.params)
-        else:
-            raise ModelError(str(self.__class__))
+        return self.model(t,*self.params)
         
     def _evaluate_all_deltas(self,t):
         # Returns a list of all the hypercube corner points.
@@ -55,27 +62,22 @@ class Model:
             params = [ p+s*d for (p,s,d) in zip(self.params,sg,self.deltas) ]
             res.append(self.model(t,*params))
         return res
-        
+
+    @errchecker
     def evaluate_h(self,t):
-        if (self.fitted):
-            if type(t) is np.ndarray:  # AAAAAAARGH!
-                return np.array( [max(self._evaluate_all_deltas(ti)) for
+        if type(t) is np.ndarray:  # AAAAAAARGH!
+            return np.array( [max(self._evaluate_all_deltas(ti)) for
                                       ti in t] )
-            else:
-                return max(self._evaluate_all_deltas(t))
         else:
-            raise ModelError(str(self.__class__))
-        
+            return max(self._evaluate_all_deltas(t))
+
+    @errchecker
     def evaluate_l(self,t):
-        if (self.fitted):
-            if type(t) is np.ndarray: # See above.
-                return np.array( [min(self._evaluate_all_deltas(ti)) for
-                                  ti in t])
-            else:
-                return min(self._evaluate_all_deltas(t))
+        if type(t) is np.ndarray: # See above.
+            return np.array( [min(self._evaluate_all_deltas(ti)) for
+                              ti in t])
         else:
-            raise ModelError(str(self.__class__))
-                            
+            return min(self._evaluate_all_deltas(t))
 
 class Exponential(Model):
     def __init__(self):
