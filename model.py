@@ -12,12 +12,27 @@ class ModelError(Exception):
         self.clstr = clstr
     def __str__(self):
         return "ModelError: Attempt to evaluate {0} before fitting.".format(self.clstr)
-    
+
+
 class Model:
+    def _allsigns(n):
+        signset = [-1,1]
+        if (n==1):
+            for s in signset:
+                yield [s]
+        else:
+            for s in signset:
+                for tail in Model._allsigns(n-1):
+                    yield [s]+tail
+                    
     def __init__(self,d):
         self.fitted = False
         self.params = [1]*d
         self.deltas = [0]*d
+        self.sglist = []
+        for sg in Model._allsigns(len(self.deltas)):
+            self.sglist.append(sg)
+
     def fit(self,xdata,ydata):
         popt,pcov = curve_fit(self.model, xdata, ydata,
                               p0=self.params,sigma=None,method="lm",
@@ -30,17 +45,48 @@ class Model:
             return self.model(t,*self.params)
         else:
             raise ModelError(str(self.__class__))
+        
+    def _evaluate_all_deltas(self,t):
+        # Returns a list of all the hypercube corner points.
+        # Because of the trickery, this function can only take scalar
+        # arguments for t.
+
+        # Generator for the possible sign combinations.
+        def _allsigns(n):
+            signset = [-1,1]
+            if (n==1):
+                for s in signset:
+                    yield [s]
+            else:
+                for s in signset:
+                    for tail in _allsigns(n-1):
+                        yield [s]+tail
+        
+        res = []
+        for sg in _allsigns(len(self.deltas)):
+            params = [ p+s*d for (p,s,d) in zip(self.params,sg,self.deltas) ]
+            res.append(self.model(t,*params))
+        return res
+        
     def evaluate_h(self,t):
         if (self.fitted):
-            h_params = [x+d for (x,d) in zip(self.params,self.deltas)]
-            return self.model(t,*h_params)
+            if type(t) is np.ndarray:  # AAAAAAARGH!
+                return np.array( [max(self._evaluate_all_deltas(ti)) for
+                                      ti in t] )
+            else:
+                return max(self._evaluate_all_deltas(t))
         else:
             raise ModelError(str(self.__class__))
+        
     def evaluate_l(self,t):
         if (self.fitted):
-            l_params = [x-d for (x,d) in zip(self.params,self.deltas)]
-            return self.model(t,*l_params)
-        else:raise ModelError(str(self.__class__))
+            if type(t) is np.ndarray: # See above.
+                return np.array( [min(self._evaluate_all_deltas(ti)) for
+                                  ti in t])
+            else:
+                return min(self._evaluate_all_deltas(t))
+        else:
+            raise ModelError(str(self.__class__))
                             
 
 class Exponential(Model):
@@ -70,8 +116,8 @@ class Logistic(Model):
 # without parameter arguments, and the last call should
 # return a vector of evaluations with the fitted parameters.
 if __name__=="__main__":
-    x = np.array([0.0, 1.0, 2.0, 3.0,4.0])
-    y = np.array([1.0, 1.1, 1.2, 1.3,1.4])
+    xvs = np.array([0.0, 1.0, 2.0, 3.0,4.0])
+    yvs = np.array([1.0, 1.1, 1.2, 1.3,1.4])
 
     m1 = Exponential()
     try:
@@ -79,21 +125,27 @@ if __name__=="__main__":
     except ModelError as m:
         print(m)
 
-    m1.fit(x,y)
+    m1.fit(xvs,yvs)
     print (m1.evaluate(4.0))
     print (m1.evaluate_h(4.0))
     print (m1.evaluate_l(4.0))
+
+    print (m1.evaluate_l(xvs))
+    print (m1.evaluate(xvs))
+    print (m1.evaluate_h(xvs))
     
     m2 = Logistic()
     try:
         m2.evaluate(0.0)
     except ModelError as m:
         print(m)
-
-    m2.fit(x,y)
+        
+    m2.fit(xvs,yvs)
     print (m2.evaluate(4.0))
     print (m2.evaluate_h(4.0))
     print (m2.evaluate_l(4.0))
 
-    print (m2.evaluate(x))
+    print (m2.evaluate_l(xvs))
+    print (m2.evaluate(xvs))
+    print (m2.evaluate_h(xvs))
     
