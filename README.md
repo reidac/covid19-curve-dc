@@ -19,13 +19,22 @@ all of the input data points are the same.
 The gray bands are the plus-one-sigma (upper) and minus-one-sigma (lower)
 deviations from the least-squares fit.
 
-A second figure is also available, showing the daily case increment as
+![DC_l](us_dc_log.png)
+
+Possibly also useful, the same data fitted to a logistic functiion,
+which levels out after a while.  Here the gray bands are the
+highest upper and lowest lower bound from all possible one-sigma 
+deviations (plus or minus) from the optimal fit.
+
+
+![deltaDC](us_dc_diff.png)
+A third figure is also available, showing the daily case increment as
 a function of the total number of reported cases.  A feature of 
 exponential growth is that the rate of growth of the system is 
 proportional to the size of the system.  This figure visually
 tests that hypothesis, and illustrates the large amount of noise
 in the data.
-![deltaDC](us_dc_diff.png)
+
 
 ## Reproduce This!
 
