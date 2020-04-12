@@ -14,13 +14,13 @@ class ModelError(Exception):
         return "ModelError: Attempt to evaluate {0} before fitting.".format(self.clstr)
 
 
-def errchecker(func):
-    def _errchecker(self,*args,**kwargs):
+def fitchecker(func):
+    def _fitchecker(self,*args,**kwargs):
         if (self.fitted):
             return func(self,*args,**kwargs)
         else:
             raise ModelError(str(self.__class__))
-    return _errchecker
+    return _fitchecker
             
 class Model:
     def __init__(self,d):
@@ -37,7 +37,7 @@ class Model:
         self.deltas = np.sqrt(np.diag(pcov))
         self.fitted = True
 
-    @errchecker
+    @fitchecker
     def evaluate(self,t):
         return self.model(t,*self.params)
         
@@ -63,7 +63,7 @@ class Model:
             res.append(self.model(t,*params))
         return res
 
-    @errchecker
+    @fitchecker
     def evaluate_h(self,t):
         if type(t) is np.ndarray:  # AAAAAAARGH!
             return np.array( [max(self._evaluate_all_deltas(ti)) for
@@ -71,7 +71,7 @@ class Model:
         else:
             return max(self._evaluate_all_deltas(t))
 
-    @errchecker
+    @fitchecker
     def evaluate_l(self,t):
         if type(t) is np.ndarray: # See above.
             return np.array( [min(self._evaluate_all_deltas(ti)) for
