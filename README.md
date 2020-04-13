@@ -42,20 +42,29 @@ in the data.
 2. Install dependencies
 
    ```bash
-   $ conda install matplotlib numpy pandas scipy
+   $ conda install matplotlib numpy pandas scipy requests
    ```
 
-3. Run the `exponential.py` script.
+3. Run the scripts:
 
    ``` 
    $ python exponential.py
+   $ python logistic.py
+   $ python increments.py
    ```
 
-  For this version, the script will make a GET query to the Covid tracking site and pull
-  down the relevant data and parse the JSON. 
+  These all call the the `get_dc_data.py` module to issue a GET query
+to the Covid tracking site.  They generate the exponential, logistic,
+and case increment vs. case count plots, respectively.
 
-   Gaps in the data are OK, just provide what you have. You will want to edit the script to set the
-   proper place-name and URL in the title.
+  To see the case data directly, just run `$ python get_dc_data.py`, 
+it will output the list of case counts.
+
+  All of these functions tolerate gaps in the data.
+
+  When you modify it for your own town/county/region, you'll have
+to find the appropriate data, and of course you'll want to change
+the figure titles.
 
 4. Share your findings to help others assess the spread of SARS-CoV-2, and to gauge the
    effectiveness of our collective response.
