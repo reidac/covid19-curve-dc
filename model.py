@@ -27,7 +27,6 @@ class Model:
         self.fitted = False
         self.params = [1]*d
         self.deltas = [0]*d
-        self.sglist = []
 
     def fit(self,xdata,ydata):
         popt,pcov = curve_fit(self.model, xdata, ydata,
