@@ -7,7 +7,7 @@ from datetime import date
 from scipy.stats import describe
 import os
 
-def figurize(mdl,sfx):
+def figurize(mdl,sfx,guess=None):
     # Arguments are a model object and a suffix for the filename.
     fig = plt.figure(figsize=(6, 4))
     plt.suptitle("COVID-19 Cases: District of Columbia", fontweight="bold")
@@ -29,6 +29,8 @@ def figurize(mdl,sfx):
 
     # Levenburg-Marquardt Least-Squares Fit
 
+    if (guess is not None):
+        mdl.params = guess
     mdl.fit(x,y)
 
     # print("cases ~ {0:.2g} * (1 + {1:.2g})^t".format(a, b))
