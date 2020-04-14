@@ -53,3 +53,4 @@ if __name__=="__main__":
     cd = retrieve()
     print(cd.x)
     print(cd.y)
+    print("Last date: ",date.fromordinal(cd.today))
