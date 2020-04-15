@@ -62,6 +62,9 @@ def figurize(mdl,sfx,guess=None):
     plt.xlim([0, xhat[-1]])
     plt.ylim([0, upper[-1]])
 
+    xmax = xhat[-1]
+    ymax = upper[-1]
+    
     # Predictions
 
     tomorrow = date.fromordinal(casedata.today + 1)
@@ -80,7 +83,7 @@ def figurize(mdl,sfx,guess=None):
 
     plt.text(
         dx,
-        yhat[0],
+        2.0*ymax/3.0,
         "{0}/{1}: ({2:.0f} < {3:.0f} < {4:.0f})".format(
             tomorrow.month, tomorrow.day, lower[0], yhat[0], upper[0]
         ),
@@ -90,7 +93,7 @@ def figurize(mdl,sfx,guess=None):
     )
     plt.text(
         dx,
-        yhat[1],
+        2.5*ymax/3.0,
         "{0}/{1}: ({2:.0f} < {3:.0f} < {4:.0f})".format(
             nextWeek.month, nextWeek.day, lower[1], yhat[1], upper[1]
         ),
@@ -99,35 +102,28 @@ def figurize(mdl,sfx,guess=None):
         bbox=dict(boxstyle="round", ec="black", fc="white", linewidth=dx),
     )
 
-    hw = (upper[1] - lower[1]) / 50
-    hl = xhat[1] / 100
-
     plt.arrow(
-        dx,
-        yhat[0],
-        xhat[0] - dx - 0.0625,
-        0,
+        0.4*xmax,
+        (2.0*ymax/3.0),
+        xhat[0] - 0.0625 - 0.4*xmax,
+        yhat[0]-(2.0*ymax/3.0),
         fc="black",
         ec="black",
-        head_width=hw,
-        head_length=hl,
-        overhang=dx,
         length_includes_head=True,
         linewidth=0.5,
+        linestyle="--",
         zorder=2,
     )
     plt.arrow(
-        dx,
-        yhat[1],
-        xhat[1] - dx - 0.0625,
-        0,
+        0.4*xmax,
+        2.5*(ymax/3.0),
+        xhat[1] - 0.0625 - 0.4*xmax,
+        yhat[1]-(2.5*ymax/3.0),
         fc="black",
         ec="black",
-        head_width=hw,
-        head_length=hl,
-        overhang=dx,
         length_includes_head=True,
         linewidth=0.5,
+        linestyle="--",
         zorder=2,
     )
 
