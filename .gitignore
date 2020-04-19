@@ -1,6 +1,8 @@
 *~
+*.pyc
 *png
 *pdf
 *gif
+run.sh
 __pycache__
 archive
