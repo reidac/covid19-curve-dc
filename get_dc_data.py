@@ -9,7 +9,7 @@ from datetime import date
 import numpy as np
 from time import strptime
 
-URL="https://covidtracking.com/api/states/daily?state=DC"
+URL="https://covidtracking.com/api/v1/states/DC/daily.json"
 
 # Container, so we can pass the offset to the day of record.
 class CaseData:
@@ -33,8 +33,10 @@ def retrieve():
     caselist = []
     # Step 0: Make a list of case data, and exclude days with zero cases.
     for ji in jsn:
+        # print(str(ji['date']) )
         dbj = strptime(str(ji['date']),'%Y%m%d')
         daynumber = date(dbj.tm_year,dbj.tm_mon, dbj.tm_mday).toordinal()
+        # print(ji['positive'])
         casecount = int(ji['positive'])
         if casecount>0:
             daylist.append(daynumber)
