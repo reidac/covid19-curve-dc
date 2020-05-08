@@ -23,7 +23,7 @@ def figurize(mdl,sfx,guess=None):
     # The new improved CaseData object promises us data
     # sorted in order of increasing x.
     x = casedata.x
-    y = casedata.y
+    y = casedata.positive
     
     plt.scatter(x, y, marker=".", s=10, color="k", zorder=10)
 

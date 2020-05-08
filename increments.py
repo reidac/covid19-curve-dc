@@ -15,8 +15,9 @@ plt.title("github.com/reidac/covid19-curve-dc", style="oblique")
 plt.xlabel("Case count")
 plt.ylabel("Case increment")
 
-dx = casedata.y[:-1]
-dy = np.array([casedata.y[i+1]-casedata.y[i] for i in range(len(dx))])
+dx = casedata.positive[:-1]
+dy = np.array([casedata.positive[i+1]-casedata.positive[i]
+               for i in range(len(dx))])
 
 plt.scatter(dx,dy,marker="o",s=10,color="k",zorder=10)
 

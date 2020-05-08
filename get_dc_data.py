@@ -15,7 +15,9 @@ URL="https://covidtracking.com/api/v1/states/DC/daily.json"
 class CaseData:
     def __init__(self,size):
         self.x = np.zeros(size)
-        self.y = np.zeros(size)
+        self.positive = np.zeros(size)
+        self.total = np.zeros(size)
+        self.recovered = np.zeros(size)
         self.start = 0 # Ordinal of the smallest date seen.
         self.today = 0 # Ordinal of the largest date seen.
     def normalize(self): # Convert x to day-of-record and sort by date.
@@ -24,28 +26,48 @@ class CaseData:
         nx = np.subtract(self.x,self.start)
         idarr = np.argsort(nx)
         self.x = np.take_along_axis(nx,idarr,axis=0)
-        self.y = np.take_along_axis(self.y,idarr,axis=0)
+        self.positive = np.take_along_axis(self.positive,idarr,axis=0)
+        self.total = np.take_along_axis(self.total,idarr,axis=0)
+        self.recovered = np.take_along_axis(self.recovered,idarr,axis=0)
         
 
 def retrieve():
     jsn = (requests.get(url=URL)).json()
     daylist = []
-    caselist = []
+    poslist = []
+    testlist = []
+    recovlist = []
     # Step 0: Make a list of case data, and exclude days with zero cases.
     for ji in jsn:
         # print(str(ji['date']) )
         dbj = strptime(str(ji['date']),'%Y%m%d')
         daynumber = date(dbj.tm_year,dbj.tm_mon, dbj.tm_mday).toordinal()
         # print(ji['positive'])
-        casecount = int(ji['positive'])
-        if casecount>0:
+        poscount = int(ji['positive'])
+        testcount = int(ji['totalTestResults'])
+        # Recovery data is somtimes 'null', and sometimes missing.
+        try:
+            recovdatum = ji['recovered']
+        except KeyError:
+            recovcount = 0
+        else:
+            try:
+                recovcount = int(recovdatum)
+            except TypeError:
+                recovcount = 0
+        if poscount>0:
             daylist.append(daynumber)
-            caselist.append(casecount)
+            poslist.append(poscount)
+            testlist.append(testcount)
+            recovlist.append(recovcount)
     # Step 1: Make the CaseData object.
-    cd = CaseData(len(caselist))
-    for (idx,day,case) in zip(range(len(caselist)),daylist,caselist):
+    cd = CaseData(len(poslist))
+    for (idx,day,pos,test,recov) in zip(range(len(poslist)),daylist,
+                                        poslist,testlist,recovlist):
         cd.x[idx] = day
-        cd.y[idx] = case
+        cd.positive[idx] = pos
+        cd.total[idx] = test
+        cd.recovered[idx] = recov
     cd.normalize()
     return cd
         
@@ -54,5 +76,7 @@ def retrieve():
 if __name__=="__main__":
     cd = retrieve()
     print(cd.x)
-    print(cd.y)
+    print(cd.positive)
+    print(cd.total)
+    print(cd.recovered)
     print("Last date: ",date.fromordinal(cd.today))
