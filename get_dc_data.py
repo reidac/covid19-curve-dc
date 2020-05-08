@@ -76,7 +76,13 @@ def retrieve():
 if __name__=="__main__":
     cd = retrieve()
     print(cd.x)
-    print(cd.positive)
+    print("Total tests:")
     print(cd.total)
+    #
+    print("Positive cases:")
+    print(cd.positive)
+    #
+    print("Recovered:")
     print(cd.recovered)
+    #
     print("Last date: ",date.fromordinal(cd.today))
