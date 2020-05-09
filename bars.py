@@ -13,11 +13,20 @@ plt.suptitle("COVID-19 Data Summary, District of Columbia ",
              fontweight="bold")
 plt.title("github.com/reidac/covid19-curve-dc", style="oblique")
 plt.xlabel("Days from onset")
-# plt.ylabel("Cases")
+plt.ylabel("Increements")
 
-plt.bar(casedata.x,casedata.total,bottom=casedata.positive,color='b')
-plt.bar(casedata.x,casedata.positive,bottom=casedata.recovered,color='r')
-plt.bar(casedata.x,casedata.recovered,color='g')
+inclen = len(casedata.positive)-1
+total_incs = [casedata.total[i+1]-casedata.total[i] for i in range(inclen)]
+pos_incs = [casedata.positive[i+1]-casedata.positive[i] for i in range(inclen)]
+recov_incs = [casedata.recovered[i+1]-casedata.recovered[i] for i in range(inclen)]
+
+# plt.bar(casedata.x,casedata.total,bottom=casedata.positive,color='b')
+# plt.bar(casedata.x,casedata.positive,bottom=casedata.recovered,color='r')
+# plt.bar(casedata.x,casedata.recovered,color='g')
+
+plt.bar(casedata.x[:-1],total_incs,bottom=pos_incs,color='b')
+plt.bar(casedata.x[:-1],pos_incs,bottom=recov_incs,color='r')
+plt.bar(casedata.x[:-1],recov_incs,color='g')
 
 plt.legend(labels=['Tests','Positives','Recoveries'])
 
