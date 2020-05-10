@@ -7,9 +7,33 @@ Then ported again from @tkphd's chart for
 
 ## District of Columbia, USA
 
-![DC](us_dc_exp.png)
+![DC](us_dc_bars.png)
 
-Data source: https://covidtracking.com/api/states/daily?state=DC
+This chart shows the increments in testing, confirmed cases,
+and recoveries.  The data source, as for all the analysis
+here, is the CovidTracking site. 
+
+https://covidtracking.com/api/v1/states/DC/daily.json
+
+
+![deltaDC](us_dc_diff.png)
+
+The daily case increment as
+a function of the total number of reported cases.  A feature of 
+exponential growth is that the rate of growth of the system is 
+proportional to the size of the system.  This figure visually
+tests that hypothesis, and illustrates the large amount of noise
+in the data.  The exponential trend had some hope of validity
+in the early days, but now is obviously absent.
+
+
+![logisticDC](us_dc_log.png)
+
+Cumulative case data fitted to a logistic function.  The model fit is
+increasingly ridiculous, but it's possibly a useful supplement to
+the cumulative case data, which for the past month or so
+(as of early May, 2020) has been trending more or less
+linearly. 
 
 The fitting process used in this analysis gives a covariance matrix for
 the model parameters, and from this matrix, it's possible to derive 
@@ -18,22 +42,6 @@ all of the input data points are the same.
 
 The gray bands are the plus-one-sigma (upper) and minus-one-sigma (lower)
 deviations from the least-squares fit.
-
-![DC_l](us_dc_log.png)
-
-Possibly also useful, the same data fitted to a logistic functiion,
-which levels out after a while.  Here the gray bands are the
-highest upper and lowest lower bound from all possible one-sigma 
-deviations (plus or minus) from the optimal fit.
-
-
-![deltaDC](us_dc_diff.png)
-A third figure is also available, showing the daily case increment as
-a function of the total number of reported cases.  A feature of 
-exponential growth is that the rate of growth of the system is 
-proportional to the size of the system.  This figure visually
-tests that hypothesis, and illustrates the large amount of noise
-in the data.
 
 
 ## Reproduce This!
