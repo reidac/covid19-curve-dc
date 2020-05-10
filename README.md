@@ -56,17 +56,21 @@ deviations from the least-squares fit.
 3. Run the scripts:
 
    ``` 
-   $ python exponential.py
-   $ python logistic.py
+   $ python bars.py
    $ python increments.py
+   $ python logistic.py
+   $ python exponential.py
    ```
 
   These all call the the `get_dc_data.py` module to issue a GET query
-to the Covid tracking site.  They generate the exponential, logistic,
-and case increment vs. case count plots, respectively.
+to the Covid tracking site.  They generate the bar chart, the case
+increment vs. case count plot, and logistic and exponential fits
+to the data, respectively.  The exponential fit is not depicted
+above, as it's well outside its domain of validity at this point.
 
   To see the case data directly, just run `$ python get_dc_data.py`, 
-it will output the list of case counts.
+it will output the list of total tests, positive tests, and 
+recoveries, as Python lists.
 
   All of these functions tolerate gaps in the data.
 
