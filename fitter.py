@@ -47,14 +47,14 @@ def figurize(mdl,sfx,guess=None):
     lower = mdl.evaluate_l(xhat)
 
     ix = np.argsort(xhat)
-    plt.plot(xhat[ix], yhat[ix], c="red", lw=1, zorder=5)
+    plt.plot(xhat[ix], yhat[ix], c="#FFCCCC", lw=1, zorder=5)
     plt.fill_between(
         xhat[ix], upper[ix], yhat[ix], edgecolor=None,
-        facecolor="silver", zorder=1
+        facecolor="#DDDDDD", zorder=1
     )
     plt.fill_between(
         xhat[ix], lower[ix], yhat[ix], edgecolor=None,
-        facecolor="silver", zorder=1
+        facecolor="#DDDDDD", zorder=1
     )
 
     # Plot Boundaries
