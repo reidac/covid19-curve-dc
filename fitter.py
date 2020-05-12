@@ -50,11 +50,11 @@ def figurize(mdl,sfx,guess=None):
     plt.plot(xhat[ix], yhat[ix], c="#FFCCCC", lw=1, zorder=5)
     plt.fill_between(
         xhat[ix], upper[ix], yhat[ix], edgecolor=None,
-        facecolor="#DDDDDD", zorder=1
+        facecolor="#F0F0F0", zorder=1
     )
     plt.fill_between(
         xhat[ix], lower[ix], yhat[ix], edgecolor=None,
-        facecolor="#DDDDDD", zorder=1
+        facecolor="#F0F0F0", zorder=1
     )
 
     # Plot Boundaries
