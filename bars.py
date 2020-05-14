@@ -20,13 +20,9 @@ total_incs = [casedata.total[i+1]-casedata.total[i] for i in range(inclen)]
 pos_incs = [casedata.positive[i+1]-casedata.positive[i] for i in range(inclen)]
 recov_incs = [casedata.recovered[i+1]-casedata.recovered[i] for i in range(inclen)]
 
-# plt.bar(casedata.x,casedata.total,bottom=casedata.positive,color='b')
-# plt.bar(casedata.x,casedata.positive,bottom=casedata.recovered,color='r')
-# plt.bar(casedata.x,casedata.recovered,color='g')
-
-plt.bar(casedata.x[:-1],total_incs,bottom=pos_incs,color='b',width=0.6)
-plt.bar(casedata.x[:-1],pos_incs,color='r',width=0.6)
-plt.bar(casedata.x[:-1]+0.3,recov_incs,color='g',width=0.4)
+plt.bar(casedata.x[:-1],total_incs,color='b',width=0.3)
+plt.bar(casedata.x[:-1]+0.3,pos_incs,color='r',width=0.3)
+plt.bar(casedata.x[:-1]+0.6,recov_incs,color='g',width=0.3)
 
 plt.legend(labels=['Tests','Positives','Recoveries'])
 
