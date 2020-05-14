@@ -85,4 +85,5 @@ if __name__=="__main__":
     print("Recovered:")
     print(cd.recovered)
     #
+    print("First date: ",date.fromordinal(cd.start))
     print("Last date: ",date.fromordinal(cd.today))

@@ -12,7 +12,7 @@ def figurize(mdl,sfx,guess=None):
     fig = plt.figure(figsize=(6, 4))
     plt.suptitle("COVID-19 Cases: District of Columbia", fontweight="bold")
     plt.title("github.com/reidac/covid19-curve-dc", style="oblique")
-    plt.xlabel("Day of Record")
+    plt.xlabel("Days since March 8, 2020")
     plt.ylabel("# Diagnosed Cases")
 
     # Data

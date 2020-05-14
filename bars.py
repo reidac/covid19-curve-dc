@@ -12,7 +12,7 @@ f2 = plt.figure(figsize=(6,4))
 plt.suptitle("COVID-19 Data Summary, District of Columbia ",
              fontweight="bold")
 plt.title("github.com/reidac/covid19-curve-dc", style="oblique")
-plt.xlabel("Days from onset")
+plt.xlabel("Days since March 8, 2020")
 plt.ylabel("Increments")
 
 inclen = len(casedata.positive)-1
