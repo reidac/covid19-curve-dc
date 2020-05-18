@@ -18,6 +18,7 @@ class CaseData:
         self.positive = np.zeros(size)
         self.total = np.zeros(size)
         self.recovered = np.zeros(size)
+        self.deaths = np.zeros(size)
         self.start = 0 # Ordinal of the smallest date seen.
         self.today = 0 # Ordinal of the largest date seen.
     def normalize(self): # Convert x to day-of-record and sort by date.
@@ -29,7 +30,7 @@ class CaseData:
         self.positive = np.take_along_axis(self.positive,idarr,axis=0)
         self.total = np.take_along_axis(self.total,idarr,axis=0)
         self.recovered = np.take_along_axis(self.recovered,idarr,axis=0)
-        
+        self.deaths = np.take_along_axis(self.deaths,idarr,axis=0)
 
 def retrieve():
     jsn = (requests.get(url=URL)).json()
@@ -37,6 +38,7 @@ def retrieve():
     poslist = []
     testlist = []
     recovlist = []
+    deathlist = []
     # Step 0: Make a list of case data, and exclude days with zero cases.
     for ji in jsn:
         # print(str(ji['date']) )
@@ -55,19 +57,31 @@ def retrieve():
                 recovcount = int(recovdatum)
             except TypeError:
                 recovcount = 0
+        try:
+            deathdatum = ji['death']
+        except KeyError:
+            deathcount = 0
+        else:
+            try:
+                deathcount = int(deathdatum)
+            except TypeError:
+                deathcount = 0
         if poscount>0:
             daylist.append(daynumber)
             poslist.append(poscount)
             testlist.append(testcount)
             recovlist.append(recovcount)
+            deathlist.append(deathcount)
     # Step 1: Make the CaseData object.
     cd = CaseData(len(poslist))
-    for (idx,day,pos,test,recov) in zip(range(len(poslist)),daylist,
-                                        poslist,testlist,recovlist):
+    for (idx,day,pos,test,recov,dth) in zip(range(len(poslist)),daylist,
+                                             poslist,testlist,
+                                             recovlist,deathlist):
         cd.x[idx] = day
         cd.positive[idx] = pos
         cd.total[idx] = test
         cd.recovered[idx] = recov
+        cd.deaths[idx] = dth
     cd.normalize()
     return cd
         
@@ -84,6 +98,9 @@ if __name__=="__main__":
     #
     print("Recovered:")
     print(cd.recovered)
+    #
+    print("Dead:")
+    print(cd.deaths)
     #
     print("First date: ",date.fromordinal(cd.start))
     print("Last date: ",date.fromordinal(cd.today))
