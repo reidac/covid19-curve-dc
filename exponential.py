@@ -6,4 +6,5 @@ import model
 import fitter
 
 m = model.Exponential()
-fitter.figurize(m,"exp")
+# "Guess" is approximately the May 20 result.
+fitter.figurize(m,"exp",guess=[440,0.04])

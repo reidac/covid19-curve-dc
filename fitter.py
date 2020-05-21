@@ -33,6 +33,8 @@ def figurize(mdl,sfx,guess=None):
         mdl.params = guess
     mdl.fit(x,y)
 
+    # print("Params: ", mdl.params)
+    
     # print("cases ~ {0:.2g} * (1 + {1:.2g})^t".format(a, b))
 
     # Confidence Band: dfdp represents the partial derivatives of
