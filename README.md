@@ -23,7 +23,7 @@ in the presentations are my responsibility.
 
 ![casesDC](us_dc_cases.png)
 
-This chart shows the total number of confirmed cases as
+The above chart shows the total number of confirmed cases as
 a function of time for the District of Columbia, with the
 recovered and dead subsets colored separately, to possibly
 help with spotting trends.
@@ -31,16 +31,14 @@ help with spotting trends.
 
 ![DC](us_dc_bars.png)
 
-This chart shows the increments in testing, confirmed cases,
-and recoveries.  The data source, as for all the analysis
-here, is the CovidTracking site. 
-
-https://covidtracking.com/api/v1/states/DC/daily.json
+The above chart shows the increments in testing, confirmed cases,
+and recoveries.  A downward trend in these increments will
+be an important part of the criteria for re-opening.
 
 
 ![deltaDC](us_dc_diff.png)
 
-The daily case increment as
+Above, the daily case increment as
 a function of the total number of reported cases.  A feature of 
 exponential growth is that the rate of growth of the system is 
 proportional to the size of the system.  This figure visually
