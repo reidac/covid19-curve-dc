@@ -7,6 +7,28 @@ Then ported again from @tkphd's chart for
 
 ## District of Columbia, USA
 
+For all of the figures and analysis in this repo, the data
+is from the CovidTracking data site and API.
+
+Specifically, I am using the "daily" data endpoint for the
+District of Columbia.
+
+https://covidtracking.com/api/v1/states/DC/daily.json
+
+There is a reasonably good discussion of their methodology
+on [the site](https://covidtracking.com/data).
+
+The graphics here are my own, and any errors or bugs
+in the presentations are my responsibility.
+
+![casesDC](us_dc_cases.png)
+
+This chart shows the total number of confirmed cases as
+a function of time for the District of Columbia, with the
+recovered and dead subsets colored separately, to possibly
+help with spotting trends.
+
+
 ![DC](us_dc_bars.png)
 
 This chart shows the increments in testing, confirmed cases,
@@ -25,23 +47,6 @@ proportional to the size of the system.  This figure visually
 tests that hypothesis, and illustrates the large amount of noise
 in the data.  The exponential trend had some hope of validity
 in the early days, but now is obviously absent.
-
-
-![logisticDC](us_dc_log.png)
-
-Cumulative case data fitted to a logistic function.  The model fit is
-increasingly ridiculous, but it's possibly a useful supplement to
-the cumulative case data, which for the past month or so
-(as of early May, 2020) has been trending more or less
-linearly. 
-
-The fitting process used in this analysis gives a covariance matrix for
-the model parameters, and from this matrix, it's possible to derive 
-one-sigma bounds on the parameters, assuming that the uncertainty on
-all of the input data points are the same. 
-
-The gray bands are the plus-one-sigma (upper) and minus-one-sigma (lower)
-deviations from the least-squares fit.
 
 
 ## Reproduce This!
