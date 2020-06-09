@@ -9,7 +9,7 @@ from datetime import date
 import numpy as np
 from time import strptime
 
-URL="https://covidtracking.com/api/v1/states/DC/daily.json"
+URL="https://covidtracking.com/api/v1/states/dc/daily.json"
 
 # Container, so we can pass the offset to the day of record.
 class CaseData:
