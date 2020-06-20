@@ -16,15 +16,15 @@ plt.xlabel("Days since March 8, 2020")
 plt.ylabel("Increments")
 
 inclen = len(casedata.positive)-1
-total_incs = [casedata.total[i+1]-casedata.total[i] for i in range(inclen)]
+# total_incs = [casedata.total[i+1]-casedata.total[i] for i in range(inclen)]
 pos_incs = [casedata.positive[i+1]-casedata.positive[i] for i in range(inclen)]
 recov_incs = [casedata.recovered[i+1]-casedata.recovered[i] for i in range(inclen)]
 
-plt.bar(casedata.x[:-1],total_incs,color='b',width=0.3)
-plt.bar(casedata.x[:-1]+0.3,pos_incs,color='r',width=0.3)
-plt.bar(casedata.x[:-1]+0.6,recov_incs,color='g',width=0.3)
+# plt.bar(casedata.x[:-1],total_incs,color='b',width=0.3)
+plt.bar(casedata.x[:-1],pos_incs,color='r',width=0.4)
+plt.bar(casedata.x[:-1]+0.4,recov_incs,color='g',width=0.4)
 
-plt.legend(labels=['Tests','Positives','Recoveries'])
+plt.legend(labels=['Positives','Recoveries'])
 
 if "FIG_PATH" in os.environ:
     fig_path = os.environ['FIG_PATH']
