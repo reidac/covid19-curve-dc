@@ -62,7 +62,7 @@ def figurize(mdl,sfx,guess=None):
     # Plot Boundaries
 
     plt.xlim([0, xhat[-1]])
-    plt.ylim([0, upper[-1]])
+    plt.ylim([0, upper[-1]*1.1])
 
     xmax = xhat[-1]
     ymax = upper[-1]
