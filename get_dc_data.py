@@ -1,4 +1,3 @@
-
 # Methods to reach out to covidtracking.com and get a historical
 # JSON blob, parse it, and return a "CaseData" object with arrays
 # of case data and days-since-day-of-record numbers, plus some
@@ -104,3 +103,10 @@ if __name__=="__main__":
     #
     print("First date: ",date.fromordinal(cd.start))
     print("Last date: ",date.fromordinal(cd.today))
+
+    ords = ['th','st','nd','rd','th','th','th','th','th','th']
+    tday = date.fromordinal(cd.today)
+    mday = int(tday.strftime("%d"))
+    mdayth = str(mday)+ords[mday%10]
+    daystring = f'{tday.strftime("%A")}, {tday.strftime("%B")} {mdayth}, {tday.strftime("%Y")}'
+    print(f'As of {daystring}, DC has reported {int(cd.positive[-1]):,} cases, with {int(cd.recovered[-1]):,} recoveries and {int(cd.deaths[-1]):,} deaths.')
