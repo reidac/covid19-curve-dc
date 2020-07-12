@@ -7,6 +7,7 @@ import requests,json
 from datetime import date
 import numpy as np
 from time import strptime
+import math
 
 URL="https://covidtracking.com/api/v1/states/dc/daily.json"
 
@@ -104,9 +105,12 @@ if __name__=="__main__":
     print("First date: ",date.fromordinal(cd.start))
     print("Last date: ",date.fromordinal(cd.today))
 
-    ords = ['th','st','nd','rd','th','th','th','th','th','th']
     tday = date.fromordinal(cd.today)
     mday = int(tday.strftime("%d"))
-    mdayth = str(mday)+ords[mday%10]
+    
+    # Ordinal number trick from:
+    # https://stackoverflow.com/questions/9647202/ordinal-numbers-replacement
+    mdayth = "%d%s" % (mday,"tsnrhtdd"[(math.floor(mday/10)%10!=1)*(mday%10<4)*mday%10::4])
+
     daystring = f'{tday.strftime("%A")}, {tday.strftime("%B")} {mdayth}, {tday.strftime("%Y")}'
     print(f'As of {daystring}, DC has reported {int(cd.positive[-1]):,} cases, with {int(cd.recovered[-1]):,} recoveries and {int(cd.deaths[-1]):,} deaths.')
