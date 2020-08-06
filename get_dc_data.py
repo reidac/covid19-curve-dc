@@ -113,4 +113,4 @@ if __name__=="__main__":
     mdayth = "%d%s" % (mday,"tsnrhtdd"[(math.floor(mday/10)%10!=1)*(mday%10<4)*mday%10::4])
 
     daystring = f'{tday.strftime("%A")}, {tday.strftime("%B")} {mdayth}, {tday.strftime("%Y")}'
-    print(f'As of {daystring}, DC has reported {int(cd.positive[-1]):,} cases, with {int(cd.recovered[-1]):,} recoveries and {int(cd.deaths[-1]):,} deaths.')
+    print(f'As of {daystring}, DC has reported {int(cd.positive[-1]):,} cases, with {int(cd.recovered[-1]):,} recoveries and {int(cd.deaths[-1]):,} deaths. Today\'s case increment is {int(cd.positive[-1]-cd.positive[-2])}.')
