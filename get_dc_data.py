@@ -9,7 +9,7 @@ import numpy as np
 from time import strptime
 import math
 
-URL="https://covidtracking.com/api/v1/states/dc/daily.json"
+URL="https://api.covidtracking.com/api/v1/states/dc/daily.json"
 
 # Container, so we can pass the offset to the day of record.
 class CaseData:
@@ -26,11 +26,11 @@ class CaseData:
         self.today = int(max(self.x))
         nx = np.subtract(self.x,self.start)
         idarr = np.argsort(nx)
-        self.x = np.take_along_axis(nx,idarr,axis=0)
-        self.positive = np.take_along_axis(self.positive,idarr,axis=0)
-        self.total = np.take_along_axis(self.total,idarr,axis=0)
-        self.recovered = np.take_along_axis(self.recovered,idarr,axis=0)
-        self.deaths = np.take_along_axis(self.deaths,idarr,axis=0)
+        self.x = np.take(nx,idarr,axis=0)
+        self.positive = np.take(self.positive,idarr,axis=0)
+        self.total = np.take(self.total,idarr,axis=0)
+        self.recovered = np.take(self.recovered,idarr,axis=0)
+        self.deaths = np.take(self.deaths,idarr,axis=0)
 
 def retrieve():
     jsn = (requests.get(url=URL)).json()
@@ -112,5 +112,9 @@ if __name__=="__main__":
     # https://stackoverflow.com/questions/9647202/ordinal-numbers-replacement
     mdayth = "%d%s" % (mday,"tsnrhtdd"[(math.floor(mday/10)%10!=1)*(mday%10<4)*mday%10::4])
 
-    daystring = f'{tday.strftime("%A")}, {tday.strftime("%B")} {mdayth}, {tday.strftime("%Y")}'
-    print(f'As of {daystring}, DC has reported {int(cd.positive[-1]):,} cases, with {int(cd.recovered[-1]):,} recoveries and {int(cd.deaths[-1]):,} deaths. Today\'s case increment is {int(cd.positive[-1]-cd.positive[-2])}.')
+    # daystring = f'{tday.strftime("%A")}, {tday.strftime("%B")} {mdayth}, {tday.strftime("%Y")}'
+    daystring = "%s, %s %s, %s" % (tday.strftime("%A"), tday.strftime("%B"), mdayth, tday.strftime("%Y"))
+    # print(f'As of {daystring}, DC has reported {int(cd.positive[-1]):,} cases, with {int(cd.recovered[-1]):,} recoveries and {int(cd.deaths[-1]):,} deaths. Today\'s case increment is {int(cd.positive[-1]-cd.positive[-2])}.')
+    # print( "As of %s, DC has reported %s cases, with %s recoveries and %d deaths. Today\'s case increment is %d." % (daystring, '{:,d}'.format(int(cd.positive[-1])), '{:,d}'.format(int(cd.recovered[-1])), int(cd.deaths[-1]), int(cd.positive[-1]-cd.positive[-2])) )
+    print( 'As of {}, DC has reported {:,d} cases, with  {:,d} recoveries and {:d} deaths. Today\'s case increment is {:d}.'.format(daystring, int(cd.positive[-1]), int(cd.recovered[-1]), int(cd.deaths[-1]), int(cd.positive[-1]-cd.positive[-2])) )
+
