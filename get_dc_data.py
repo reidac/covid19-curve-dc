@@ -41,11 +41,14 @@ def retrieve():
     deathlist = []
     # Step 0: Make a list of case data, and exclude days with zero cases.
     for ji in jsn:
-        # print(str(ji['date']) )
         dbj = strptime(str(ji['date']),'%Y%m%d')
         daynumber = date(dbj.tm_year,dbj.tm_mon, dbj.tm_mday).toordinal()
         # print(ji['positive'])
-        poscount = int(ji['positive'])
+        # Positive data is also sometimes missing.
+        try:
+            poscount = int(ji['positive'])
+        except TypeError:
+            poscount = 0
         testcount = int(ji['totalTestResults'])
         # Recovery data is somtimes 'null', and sometimes missing.
         try:
