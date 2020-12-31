@@ -28,3 +28,5 @@ else:
     fig_path = "."
 
 plt.savefig("{0}/us_dc_cases.png".format(fig_path),dpi=300,bbox_inches="tight")
+
+print("Bar graph of cumulative Covid-19 cases reported by DC, broken out into positives, recoveries, and deaths.")

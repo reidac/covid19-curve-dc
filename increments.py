@@ -27,3 +27,5 @@ else:
     fig_path = "."
 
 plt.savefig("{0}/us_dc_diff.png".format(fig_path),dpi=300,bbox_inches="tight")
+
+print("Scatter plot of reported DC Covid-19 case increments vs. cumulative case totals, daily since March 8, 2020.")

@@ -41,10 +41,10 @@ def retrieve():
     deathlist = []
     # Step 0: Make a list of case data, and exclude days with zero cases.
     for ji in jsn:
+        # print(str(ji['date']) )
         dbj = strptime(str(ji['date']),'%Y%m%d')
         daynumber = date(dbj.tm_year,dbj.tm_mon, dbj.tm_mday).toordinal()
         # print(ji['positive'])
-        # Positive data is also sometimes missing.
         try:
             poscount = int(ji['positive'])
         except TypeError:
@@ -119,5 +119,8 @@ if __name__=="__main__":
     daystring = "%s, %s %s, %s" % (tday.strftime("%A"), tday.strftime("%B"), mdayth, tday.strftime("%Y"))
     # print(f'As of {daystring}, DC has reported {int(cd.positive[-1]):,} cases, with {int(cd.recovered[-1]):,} recoveries and {int(cd.deaths[-1]):,} deaths. Today\'s case increment is {int(cd.positive[-1]-cd.positive[-2])}.')
     # print( "As of %s, DC has reported %s cases, with %s recoveries and %d deaths. Today\'s case increment is %d." % (daystring, '{:,d}'.format(int(cd.positive[-1])), '{:,d}'.format(int(cd.recovered[-1])), int(cd.deaths[-1]), int(cd.positive[-1]-cd.positive[-2])) )
-    print( 'As of {}, DC has reported {:,d} cases, with  {:,d} recoveries and {:d} deaths. Today\'s case increment is {:d}.'.format(daystring, int(cd.positive[-1]), int(cd.recovered[-1]), int(cd.deaths[-1]), int(cd.positive[-1]-cd.positive[-2])) )
-
+    dcount = int(cd.deaths[-1]-cd.deaths[-2])
+    if (dcount==0):
+        print( 'As of {}, DC has reported {:,d} cases, with  {:,d} recoveries and {:d} deaths. Today\'s case increment is {:d}.'.format(daystring, int(cd.positive[-1]), int(cd.recovered[-1]), int(cd.deaths[-1]), int(cd.positive[-1]-cd.positive[-2])) )
+    else:
+        print("As of {}, DC has reported {:,d} cases, with {:,d} recoveries and {:d} deaths. Today\'s case increment is {:d} and today's death increment is {:d}.".format(daystring,int(cd.positive[-1]), int(cd.recovered[-1]), int(cd.deaths[-1]), int(cd.positive[-1]-cd.positive[-2]),dcount) )
