@@ -32,3 +32,4 @@ else:
     fig_path = "."
 
 plt.savefig("{0}/us_dc_bars.png".format(fig_path),dpi=300,bbox_inches="tight")
+print("Bar graph of case and death increments vs. date for the District of Columbia.")
